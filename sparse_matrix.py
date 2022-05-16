@@ -1,15 +1,12 @@
-
-
-
-from numpy import array, count_nonzero
-from scipy.sparse import csr_matrix
+import numpy as np
+from scipy.sparse import csr_matrix, find
 from scipy.io import mmread, mmwrite, mminfo
 import gzip
 
 
 def load_matrix(filename):
     """
-    Loads a matrix from a file.
+    Loads a matrix from a file [mtx, mtx.gz] formats
     """
     return mmread(filename), mminfo(filename)
 
@@ -32,9 +29,7 @@ def compute_statistics(matrix_info):
 
     nonzero_fraction = nonzero_count / size
     sparsity = 1.0 - nonzero_count / size
- 
-
-
+    
     return {
         'row_count': row_count,
         'column_count': column_count,
@@ -46,6 +41,11 @@ def compute_statistics(matrix_info):
         'sparsity': sparsity
     }
 
+def nnz_per_row(matrix):
+    """
+    Computes the number of non-zero entries per row.
+    """
+    return matrix.getnnz(axis=1)
 
 def plot_matrix(matrix):
     """
@@ -54,9 +54,6 @@ def plot_matrix(matrix):
     import matplotlib.pyplot as plt
     plt.spy(matrix, markersize=0.5)
     plt.show()
-
-
-
 
 
 if __name__ == '__main__':
@@ -82,6 +79,9 @@ if __name__ == '__main__':
 
     # Print the statistics.
     print(statistics)
+
+    nnz_per_row = nnz_per_row(matrix)
+    #print(nnz_per_row)
 
     # Plot the matrix.
     plot_matrix(matrix)

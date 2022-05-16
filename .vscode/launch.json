@@ -8,8 +8,8 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "args": ["matrices/fidapm02.mtx"],
+            "program": "sparse_matrix.py",
+            "args": ["matrices/fidapm02.mtx.gz"],
             "console": "integratedTerminal",
             "justMyCode": true
         }
